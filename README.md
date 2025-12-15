@@ -29,6 +29,7 @@ Step 1:
 ![Step 1](images/menu.png)
 
 Step 2:
+![Step 2](images/copy_url.png)
 ![Step 2](images/write_vid_details.png)
 
 Step 3:
