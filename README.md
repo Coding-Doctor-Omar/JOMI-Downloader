@@ -2,7 +2,7 @@
 ![logo](Jomi_logo.ico)
 
 ## Background
-JOMI stands for *Journal Of Medical Insight*. This journal is an online educational platform focused on high-quality surgical education. It provides peer-reviewed, step-by-step videos of real surgical procedures, performed by expert surgeons and accompanied by detailed explanations of anatomy, indications, operative steps, and postoperative considerations.
+JOMI (https://jomi.com/) stands for *Journal Of Medical Insight*. This journal is an online educational platform focused on high-quality surgical education. It provides peer-reviewed, step-by-step videos of real surgical procedures, performed by expert surgeons and accompanied by detailed explanations of anatomy, indications, operative steps, and postoperative considerations.
 
 JOMI is designed primarily for medical students, residents, and practicing surgeons, offering a realistic view of surgery as it happens in the operating room. The platform covers multiple specialties (e.g., general surgery, orthopedics, OB/GYN, urology, neurosurgery) and emphasizes clinical decision-making, surgical technique, and intraoperative anatomy.
 
