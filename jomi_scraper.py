@@ -1,8 +1,9 @@
-from curl_cffi import AsyncSession
+from curl_cffi import AsyncSession, requests
 from zendriver.cdp.network import enable, RequestWillBeSent
 from asyncio import Event, Semaphore, Lock
 import asyncio
 import zendriver as zd
+import sys
 
 download_limit = Semaphore(120)
 lock = Lock()
@@ -15,6 +16,7 @@ class JomiScraper:
     def initialize_scraper(self, video_name: str="video"):
         self.total_segments = 0
         self.video_data_url = ""
+        self.subtitle_data_url = ""
         self.video_segment_urls = []
         self.video_data = []
         self.vid_name = video_name
@@ -91,5 +93,41 @@ class JomiScraper:
 
             with open(f"{self.vid_name}.ts", mode="ab") as vid:
                 vid.write(segment["segment_bytes"])
+
+
+    def download_subtitles(self, vid_url):
+        r = requests.get(vid_url, impersonate="edge")
+        video_id = r.text.split("/embed/iframe/")[-1].split(",")[0].replace('"', "").split("}")[0].strip()
+        self.subtitle_data_url = f"https://fast.wistia.com/embed/captions/{video_id}.json"
+
+        r = requests.get(self.subtitle_data_url, impersonate="edge")
+        data = r.json()
+
+        subtitles = [sub["hash"]["lines"] for sub in data["captions"] if sub["familyName"] == "English"][0]
+
+        with open(f"{self.vid_name}.srt", mode="w", encoding="utf-8") as subtitle_file:
+            for ind, line in enumerate(subtitles):
+                line_num = ind + 1
+                start_raw = line["start"]
+                end_raw = line["end"]
+
+                start_hrs = int(start_raw // 3600)
+                start_mins = int((start_raw % 3600) // 60)
+                start_secs = int(start_raw % 60)
+                start_ms = int((start_raw - int(start_raw)) * 1000)
+                start_string = f"{start_hrs:02}:{start_mins:02}:{start_secs:02},{start_ms:03}"
+
+                end_hrs = int(end_raw // 3600)
+                end_mins = int((end_raw % 3600) // 60)
+                end_secs = int(end_raw % 60)
+                end_ms = int((end_raw - int(end_raw)) * 1000)
+                end_string = f"{end_hrs:02}:{end_mins:02}:{end_secs:02},{end_ms:03}"
+
+                time_string = f"{start_string} --> {end_string}"
+                line_text = "\n".join(line["text"])
+
+                block_text = f"{line_num}\n{time_string}\n{line_text}\n\n"
+
+                subtitle_file.write(block_text)
 
         self.initialize_scraper()

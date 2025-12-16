@@ -1,16 +1,23 @@
-import subprocess
-import sys
-from pathlib import Path
+def main():
+    import subprocess
+    import sys
+    from pathlib import Path
 
-req_file = Path("requirements.txt")
+    req_file = Path("requirements.txt")
 
-if not req_file.exists():
-    print("❌ requirements.txt not found.")
-    sys.exit(1)
+    if not req_file.exists():
+        print("❌ requirements.txt not found.")
+        sys.exit(1)
 
-try:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", str(req_file)])
-    print("✅ All requirements installed successfully.")
-except subprocess.CalledProcessError as e:
-    print("❌ Pip install failed:", e)
-    sys.exit(1)
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", str(req_file)])
+        print("✅ All requirements installed successfully.")
+    except subprocess.CalledProcessError as e:
+        input(f"❌ Pip install failed: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        input(f"Error: {e}")
