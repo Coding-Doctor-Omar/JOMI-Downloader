@@ -1,5 +1,6 @@
-# Ignore .ts files
+# Ignore .ts and .srt files
 *.ts
+*.srt
 
 # Ignore temporary text files
 data.txt
