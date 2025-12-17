@@ -30,7 +30,7 @@ To download a JOMI video, follow these steps (screenshots are shown at the end):
 1. Once you launch the software, type '1' and press ENTER.
 2. You will be asked to provide the URL for the JOMI video page. Paste the URL and press ENTER.
 3. You will then be asked to provide a name for the output video (optional). Type the name without an extension and press ENTER.
-4. Sit back and relax while the downloader downloads the video for you.
+4. Sit back and relax while the downloader downloads the video and its captions for you.
 5. Once the video is downloaded, you will see a message in blue saying 'Done! The video has been saved as ...'. Once you see this, press ENTER to go back to the main menu.
 6. The video will be saved in the same directory as 'main.py' as a '.ts' video file.
 
@@ -49,8 +49,10 @@ Step 3:
 Step 4:
 ![Download Complete](images/download_complete.png)
 
-Video in Folder:
+Videos Played after Being Downloaded:
+![Video Played](images/video_played.jpeg)
 ![Video in Folder](images/video_folder.png)
+![Video in Folder 2](images/video_folder_2.png)
 
 ## Other Screenshots
 
