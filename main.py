@@ -102,11 +102,11 @@ async def main():
             vid_url = ask_video_url()
             vid_name = ask_video_name()
 
-            if not vid_name:
+            if not vid_name: # Video name cannot be empty
                 input("Invalid video name. Press ENTER to retry.")
                 continue
             else:
-                try:
+                try: # Video name has to be a valid name
                     with open(f"{vid_name}.ts", mode="w") as vid:
                         pass
                 except Exception:
