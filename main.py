@@ -101,11 +101,22 @@ async def main():
         elif menu_choice == "1":
             vid_url = ask_video_url()
             vid_name = ask_video_name()
-            clear_screen()
-            print(logo)
 
-            await download_video(vid_name, vid_url)
-            continue
+            if not vid_name:
+                input("Invalid video name. Press ENTER to retry.")
+                continue
+            else:
+                try:
+                    with open(f"{vid_name}.ts", mode="w") as vid:
+                        pass
+                except Exception:
+                    input("Invalid video name. Press ENTER to retry.")
+                    continue
+                else:
+                    clear_screen()
+                    print(logo)
+                    await download_video(vid_name, vid_url)
+                    continue
         elif menu_choice == "2":
             clear_screen()
             print(logo)
