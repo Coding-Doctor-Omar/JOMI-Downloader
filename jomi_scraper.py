@@ -1,12 +1,21 @@
 from curl_cffi import AsyncSession, requests
 from zendriver.cdp.network import enable, RequestWillBeSent
 from asyncio import Event, Semaphore, Lock
+from functools import wraps
 import asyncio
 import zendriver as zd
-import sys
 
 download_limit = Semaphore(120)
 lock = Lock()
+
+def limit_concurrency(async_func):
+    """Concurrency limiter decorator."""
+    @wraps(async_func)
+    async def wrapper(*args, **kwargs):
+        async with download_limit:
+            await async_func(*args, **kwargs)
+
+    return wrapper
 
 
 class JomiScraper:
@@ -60,6 +69,7 @@ class JomiScraper:
         self.total_segments = len(self.video_segment_urls)
         return self.video_segment_urls
 
+    @limit_concurrency
     async def download_video_segment(self, segment_url, session: AsyncSession, total_segs):
         r = await session.get(segment_url)
         seg_number = int(segment_url.split("/")[-1].split(".")[0].split("-")[1])
@@ -74,15 +84,9 @@ class JomiScraper:
             self.video_data.append(seg_data)
             print(f"Downloaded {len(self.video_data)}/{total_segs} video segments.")
 
-    async def download_video_segment_with_limit(self, segment_url, session: AsyncSession, total_segs):
-        async with download_limit:
-            await self.download_video_segment(segment_url, session, total_segs)
-
     async def download_video_segments(self, segment_urls: list):
         async with AsyncSession(impersonate="edge", timeout=120000) as session:
-            await asyncio.gather(*(self.download_video_segment_with_limit(url, session, self.total_segments) for url in segment_urls))
-
-
+            await asyncio.gather(*(self.download_video_segment(url, session, self.total_segments) for url in segment_urls))
 
     def pack_video(self):
         with open(f"{self.vid_name}.ts", mode="wb") as vid:
@@ -93,7 +97,6 @@ class JomiScraper:
 
             with open(f"{self.vid_name}.ts", mode="ab") as vid:
                 vid.write(segment["segment_bytes"])
-
 
     def download_subtitles(self, vid_url):
         r = requests.get(vid_url, impersonate="edge")
