@@ -8,6 +8,7 @@ import zendriver as zd
 download_limit = Semaphore(120)
 lock = Lock()
 
+
 def limit_concurrency(async_func):
     """Concurrency limiter decorator."""
     @wraps(async_func)
