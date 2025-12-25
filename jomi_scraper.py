@@ -2,11 +2,16 @@ from curl_cffi import AsyncSession, requests
 from zendriver.cdp.network import enable, RequestWillBeSent
 from asyncio import Event, Semaphore, Lock
 from functools import wraps
+from tqdm import tqdm
 import asyncio
 import zendriver as zd
 
 download_limit = Semaphore(120)
 lock = Lock()
+
+GREEN = "\033[32m"
+AQUA = "\033[36m"
+YELLOW = "\033[33m"
 
 
 def limit_concurrency(async_func):
@@ -31,6 +36,8 @@ class JomiScraper:
         self.video_data = []
         self.vid_name = video_name
         self.video_data_url_seen = Event()
+        self.download_progress_bar = None
+        self.download_progress_bar_fmt = f"{YELLOW}" + "Downloading video: {l_bar}{bar}|{n_fmt}/{total_fmt} segments [{elapsed}<{remaining}, {rate_fmt}]"
 
     async def get_video_data_url(self, video_url) -> str:
         browser = await zd.start(headless=True)
@@ -83,11 +90,15 @@ class JomiScraper:
 
         async with lock:
             self.video_data.append(seg_data)
-            print(f"Downloaded {len(self.video_data)}/{total_segs} video segments.")
+            self.download_progress_bar.update(1)
 
     async def download_video_segments(self, segment_urls: list):
         async with AsyncSession(impersonate="edge", timeout=120000) as session:
+            print("\n")
+            self.download_progress_bar = tqdm(total=self.total_segments, unit=" Segments", bar_format=self.download_progress_bar_fmt)
             await asyncio.gather(*(self.download_video_segment(url, session, self.total_segments) for url in segment_urls))
+
+        self.download_progress_bar.close()
 
     def pack_video(self):
         with open(f"{self.vid_name}.ts", mode="wb") as vid:
