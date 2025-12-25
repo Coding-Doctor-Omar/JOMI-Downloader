@@ -80,9 +80,9 @@ async def download_video(vid_name, vid_url):
 
     print(f"\nInitializing Download...")
     await scraper.download_video_segments(vid_segment_urls)
-    print(f"Successfully downloaded all {scraper.total_segments} video segments.")
+    print(f"\n{YELLOW}Successfully downloaded all {scraper.total_segments} video segments.")
 
-    print(f"Packing data into video file...")
+    print(f"{YELLOW}Packing data into video file...")
     scraper.pack_video()
     scraper.download_subtitles(vid_url)
     input(f"{AQUA}\nDone! The video has been saved as '{vid_name}.ts' in the same directory, and the subtitles have been saved as '{vid_name}.srt' in the same directory!\nPress ENTER to go back to the main menu.")
