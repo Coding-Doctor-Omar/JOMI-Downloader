@@ -2,6 +2,12 @@
 ![logo](Jomi_logo.ico)
 
 ## NEWS
+--- SOFTWARE UPGRADE ON DECEMBER 25, 2025 (v1.1.0) ---
+
+
+
+JOMI Downloader now shows a neat progress bar for the download progress, instead of the primitive text spam display.
+
 --- SOFTWARE UPGRADE ON DECEMBER 16, 2025 ---
 
 
@@ -19,6 +25,11 @@ Access is typically paid and requires subscriptions. This is what this software 
 by simply entering the URL for the video page. Note that this software is for educational purposes only.
 
 ## Installation
+If you are not interested in going over the details of local Python setup and would like to easily and quickly use JOMI Downloader,
+check the latest release [here](https://github.com/Coding-Doctor-Omar/JOMI-Downloader/releases/tag/v1.1.0).
+
+Otherwise, if you like to setup Python on your device and run the Python files directly, follow the 4 steps below:
+
 1. Make sure you have [Python](https://www.python.org/) installed on your computer.
 2. Make sure 'main.py', 'jomi_scraper.py', 'setup.py', and 'requirements.txt' are downloaded and in a common folder.
 3. Run 'setup.py' to automatically install the required dependencies for the software.
@@ -50,9 +61,11 @@ Step 4:
 ![Download Complete](images/download_complete.png)
 
 Videos Played after Being Downloaded:
-![Video Played](images/video_played.jpeg)
 ![Video in Folder](images/video_folder.png)
 ![Video in Folder 2](images/video_folder_2.png)
+![captions_1](images/jomi_captions_1.jpeg)
+![captions_2](images/jomi_captions_2.jpeg)
+![captions_3](images/jomi_captions_3.jpeg)
 
 ## Other Screenshots
 
