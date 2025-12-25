@@ -12,6 +12,8 @@ temp_data.txt
 .idea/
 __pycache__/
 venv/
+build/
+dist/
 
 # Ignore test python files
 test.py
