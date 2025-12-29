@@ -1,6 +1,9 @@
-# Ignore .ts, .srt files, and .spec files
+# Ignore video files and captions files
 *.ts
 *.srt
+*.mp4
+
+# Ignore spec files
 *.spec
 
 # Ignore temporary text files
@@ -17,3 +20,6 @@ dist/
 
 # Ignore test python files
 test.py
+
+# Ignore settings file
+*.json
