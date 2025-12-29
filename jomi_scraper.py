@@ -1,117 +1,67 @@
 from curl_cffi import AsyncSession, requests
-from zendriver.cdp.network import enable, RequestWillBeSent
-from asyncio import Event, Semaphore, Lock
-from functools import wraps
 from tqdm import tqdm
 import asyncio
-import zendriver as zd
 
-download_limit = Semaphore(120)
-lock = Lock()
 
-GREEN = "\033[32m"
-AQUA = "\033[36m"
+
 YELLOW = "\033[33m"
 
 
-def limit_concurrency(async_func):
-    """Concurrency limiter decorator."""
-    @wraps(async_func)
-    async def wrapper(*args, **kwargs):
-        async with download_limit:
-            await async_func(*args, **kwargs)
-
-    return wrapper
-
-
 class JomiScraper:
-    def __init__(self, video_name: str="video"):
-        self.initialize_scraper(video_name=video_name)
+    def __init__(self, vid_name: str, quality: str, vid_url: str):
+        self.initialize_scraper(vid_name=vid_name, quality=quality, vid_url=vid_url)
 
-    def initialize_scraper(self, video_name: str="video"):
-        self.total_segments = 0
+    def initialize_scraper(self, vid_name: str, quality: str, vid_url: str):
         self.video_data_url = ""
         self.subtitle_data_url = ""
-        self.video_segment_urls = []
-        self.video_data = []
-        self.vid_name = video_name
-        self.video_data_url_seen = Event()
-        self.download_progress_bar = None
-        self.download_progress_bar_fmt = f"{YELLOW}" + "Downloading video: {l_bar}{bar}|{n_fmt}/{total_fmt} segments [{elapsed}<{remaining}, {rate_fmt}]"
+        self.vid_name = vid_name
+        self.vid_quality = quality
+        self.vid_url = vid_url
+        self.pbar_fmt = f"{YELLOW}" + "Downloading video: {l_bar}{bar}|{n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt} ]"
 
-    async def get_video_data_url(self, video_url) -> str:
-        browser = await zd.start(headless=True)
-        page = await browser.get(url="https://jomi.com")
-        await page.send(enable())
-
-        def handle_req(event, _conn):
-            try:
-                req_url = event.request.url
-            except AttributeError:
-                pass
-            else:
-                if ".m3u8" in req_url and "embed-cloudfront.wistia.com" in req_url:
-                    self.video_data_url = "https://embed-cloudfront.wistia.com/deliveries/" + req_url.split("deliveries/")[-1].split(".m3u8")[0] + ".m3u8"
-                    self.video_data_url_seen.set()
-
-        page.add_handler(RequestWillBeSent, handle_req)
-        await page.get(video_url)
-        await page.wait_for_ready_state(until="complete", timeout=60000)
-
-        await page.evaluate('const el = document.querySelector("img[decoding=async]"); el.click();')
-        await self.video_data_url_seen.wait()
-        await browser.stop()
-
-        return self.video_data_url
-
-    async def get_video_segment_urls(self, video_data_url) -> list:
-        async with AsyncSession(impersonate="edge", timeout=120000) as session:
-            r = await session.get(video_data_url)
-            with open("temp_data.txt", mode="w") as txt_file:
-                txt_file.write(r.text)
-
-        with open("temp_data.txt", mode="r") as txt_file:
-            all_lines = txt_file.readlines()
-            self.video_segment_urls = [("https://embed-cloudfront.wistia.com" + line).strip() for line in all_lines if "deliveries" in line]
-
-        self.total_segments = len(self.video_segment_urls)
-        return self.video_segment_urls
-
-    @limit_concurrency
-    async def download_video_segment(self, segment_url, session: AsyncSession, total_segs):
-        r = await session.get(segment_url)
-        seg_number = int(segment_url.split("/")[-1].split(".")[0].split("-")[1])
-        seg_bytes = r.content
-
-        seg_data = {
-            "segment_number": seg_number,
-            "segment_bytes": seg_bytes
+    async def get_video_data_url(self, session: AsyncSession) -> None:
+        vid_types = {
+            "low": "IphoneVideoFile",
+            "medium": "HdMp4VideoFile",
+            "high": "OriginalFile"
         }
 
-        async with lock:
-            self.video_data.append(seg_data)
-            self.download_progress_bar.update(1)
+        r = await session.get(self.vid_url, impersonate="edge")
+        separator = f'"contentType":"video/mp4","type":"{vid_types[self.vid_quality]}"'
 
-    async def download_video_segments(self, segment_urls: list):
-        async with AsyncSession(impersonate="edge", timeout=120000) as session:
-            print("\n")
-            self.download_progress_bar = tqdm(total=self.total_segments, unit=" Segments", bar_format=self.download_progress_bar_fmt)
-            await asyncio.gather(*(self.download_video_segment(url, session, self.total_segments) for url in segment_urls))
+        self.video_data_url = r.text.split(separator)[0].split('"url":"')[-1].split(".bin")[0] + ".bin"
 
-        self.download_progress_bar.close()
 
-    def pack_video(self):
-        with open(f"{self.vid_name}.ts", mode="wb") as vid:
+
+
+    async def download_mp4(self, session: AsyncSession) -> None:
+        with open(f"{self.vid_name}.mp4", mode="wb") as vid_file:
             pass
 
-        for seg_num in range(1, self.total_segments + 1):
-            segment = [seg for seg in self.video_data if seg["segment_number"] == seg_num][0]
+        r = await session.get(self.video_data_url, stream=True)
 
-            with open(f"{self.vid_name}.ts", mode="ab") as vid:
-                vid.write(segment["segment_bytes"])
+        total_size = int(r.headers["Content-Length"])
+        pbar = tqdm(unit="B", total=total_size, unit_scale=True, bar_format=self.pbar_fmt)
 
-    def download_subtitles(self, vid_url):
-        r = requests.get(vid_url, impersonate="edge")
+        async for chunk in r.aiter_content(chunk_size=1024 * 512):
+            with open(f"{self.vid_name}.mp4", mode="ab") as vid_file:
+                vid_file.write(chunk)
+
+            pbar.update(len(chunk))
+
+        pbar.close()
+
+    async def download_video(self) -> None:
+        async with AsyncSession(impersonate="edge", timeout=120000) as session:
+            await self.get_video_data_url(session)
+            await self.download_mp4(session)
+
+        print(f"\n{YELLOW}Downloading subtitles...")
+        self.download_subtitles()
+
+
+    def download_subtitles(self):
+        r = requests.get(self.vid_url, impersonate="edge")
         video_id = r.text.split("/embed/iframe/")[-1].split(",")[0].replace('"', "").split("}")[0].strip()
         self.subtitle_data_url = f"https://fast.wistia.com/embed/captions/{video_id}.json"
 
@@ -145,4 +95,4 @@ class JomiScraper:
 
                 subtitle_file.write(block_text)
 
-        self.initialize_scraper()
+        self.initialize_scraper("", "", "")
