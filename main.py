@@ -1,6 +1,6 @@
 from jomi_scraper import JomiScraper
 import asyncio
-import os, sys
+import os, sys, json
 
 logo = r"""
        _                 _   _____                      _                 _           
@@ -18,9 +18,30 @@ menu_options = r"""
 *        MAIN MENU        *
 ***************************
 * 1. Download Video       *
-* 2. How to Use           *
-* 3. About                *
-* 4. Exit                 *
+* 2. Settings             *
+* 3. How to Use           *
+* 4. About                *
+* 5. Exit                 *
+***************************
+"""
+
+settings_menu = r"""
+***************************
+*        SETTINGS         *
+***************************
+* 1. Video Quality        *
+* 2. Back to Main Menu    *
+***************************
+"""
+
+quality_options = r"""
+***************************
+*  Change Video Quality   *
+***************************
+* 1. Low                  *
+* 2. Medium (recommended) *
+* 3. High                 *
+* 4. Back to Main Menu    *
 ***************************
 """
 
@@ -28,8 +49,8 @@ how_to_use_text = r"""
 1. In the main menu, type '1' and press ENTER.
 2. You will be asked to provide the URL for the video page and to provide your desired video name.
 3. Grab a cup of tea and rest until the video is downloaded.
-4. The video will be saved in the same directory as the 'main.py'.
-5. Once you see 'Done! ....', congratulations, the video has been downloaded.
+4. The video will be saved in the same folder.
+5. Once you see 'Done! ....', congratulations, the video and its subtitles have been downloaded.
 
 Press ENTER to return to the main menu.
 """
@@ -46,6 +67,9 @@ surgical video and downloads the full video in HD quality, bypassing the paywall
 WARNING:- This software is for educational purposes only. Review the TOS of JOMI before using.
 I am not responsible for any misuse on your part.
 
+[v1.2.0]
+
+
 Press ENTER to return to the main menu.
 """
 
@@ -53,7 +77,7 @@ Press ENTER to return to the main menu.
 GREEN = "\033[32m"
 AQUA = "\033[36m"
 YELLOW = "\033[33m"
-RESET = "\033[0m"
+RED = "\033[31m"
 
 def clear_screen():
     if os.name == "nt":
@@ -61,7 +85,7 @@ def clear_screen():
     else:
         os.system("clear")
 
-def ask_main_menu() -> str:
+def ask_user_choice() -> str:
     return input("\nChoose an option: ").strip()
 
 def ask_video_url() -> str:
@@ -71,46 +95,69 @@ def ask_video_name() -> str:
     return input("Video Name: ").strip().replace(" ", "_")
 
 async def download_video(vid_name, vid_url):
-    scraper = JomiScraper(video_name=vid_name)
+    settings = get_user_settings()
+    quality = settings.get("videoQuality")
 
-    print(f"{YELLOW}Fetching video segment URLs...")
-    vid_data_url = await scraper.get_video_data_url(vid_url)
-    vid_segment_urls = await scraper.get_video_segment_urls(vid_data_url)
-    print(f"Fetched {scraper.total_segments} video segment URLs.")
+    scraper = JomiScraper(vid_name=vid_name, vid_url=vid_url, quality=quality)
 
-    print(f"\nInitializing Download...")
-    await scraper.download_video_segments(vid_segment_urls)
-    print(f"\n{YELLOW}Successfully downloaded all {scraper.total_segments} video segments.")
+    print(f"{YELLOW}Initializing Download...\n")
+    await scraper.download_video()
+    input(f"{AQUA}\nDone! The video and subtitles have been saved as '{vid_name}.mp4' and '{vid_name}.srt' in the same folder, respectively.\nPress ENTER to go back to the main menu.")
+    
+def get_user_settings() -> dict:
+    try:
+        with open("settings.json", mode="r") as settings_file:
+            settings = json.load(settings_file)
+    except Exception:
+        settings = {
+            "videoQuality": "medium"
+        }
+        with open("settings.json", mode="w", encoding="utf-8") as settings_file:
+            json.dump(settings, settings_file, indent=4)
+    
+    return settings
 
-    print(f"{YELLOW}Packing data into video file...")
-    scraper.pack_video()
-    scraper.download_subtitles(vid_url)
-    input(f"{AQUA}\nDone! The video has been saved as '{vid_name}.ts' in the same directory, and the subtitles have been saved as '{vid_name}.srt' in the same directory!\nPress ENTER to go back to the main menu.")
+def set_video_quality(user_choice: str) -> None:
+    choice_dict = {
+        "1": "low",
+        "2": "medium",
+        "3": "high"
+    }
+    new_quality = choice_dict[user_choice]
+    
+    with open("settings.json", mode="w", encoding="utf-8") as settings_file:
+        new_settings = {
+            "videoQuality": new_quality
+        }
+        json.dump(new_settings, settings_file, indent=4)
+    
 
 
 async def main():
     while True:
+        settings = get_user_settings()
+        
         clear_screen()
         print(f"{GREEN}{logo}")
         print(menu_options)
 
-        menu_choice = ask_main_menu()
+        menu_choice = ask_user_choice()
 
-        if menu_choice == "4":
+        if menu_choice == "5":
             sys.exit(0)
         elif menu_choice == "1":
             vid_url = ask_video_url()
             vid_name = ask_video_name()
 
             if not vid_name: # Video name cannot be empty
-                input("Invalid video name. Press ENTER to retry.")
+                input("\nInvalid video name. Press ENTER to retry.")
                 continue
             else:
                 try: # Video name has to be a valid name
-                    with open(f"{vid_name}.ts", mode="w") as vid:
+                    with open(f"{vid_name}.mp4", mode="w") as vid:
                         pass
                 except Exception:
-                    input("Invalid video name. Press ENTER to retry.")
+                    input("\nInvalid video name. Press ENTER to retry.")
                     continue
                 else:
                     clear_screen()
@@ -120,19 +167,55 @@ async def main():
         elif menu_choice == "2":
             clear_screen()
             print(logo)
+            print(settings_menu)
+            
+            settings_menu_choice = ask_user_choice()
+            
+            if settings_menu_choice == "2":
+                continue
+            elif settings_menu_choice == "1":
+                quality = settings.get("videoQuality")
+                clear_screen()
+                print(logo)
+                print(f"{GREEN}Current Video Quality: {YELLOW}{quality.title()}{GREEN}\n")
+                print(quality_options)
+                
+                quality_choice = ask_user_choice()
+                
+                if quality_choice not in ["1", "2", "3", "4"]:
+                    input("\nInvalid option. Press ENTER to go back to the main menu.")
+                elif quality_choice == "4":
+                    continue
+                else:
+                    set_video_quality(user_choice=quality_choice)
+                    settings = get_user_settings()
+                    quality = settings.get("videoQuality")
+                    clear_screen()
+                    print(logo)
+                    print(f"{GREEN}Current Video Quality: {YELLOW}{quality.title()}{GREEN}\n")
+                    print(quality_options)
+                    input("\nVideo quality has been updated. Press ENTER to go back to the main menu.")
+            
+            else:
+                input("\nInvalid option. Press ENTER to go back to the main menu.")
+                continue
+        
+        elif menu_choice == "3":
+            clear_screen()
+            print(logo)
             input(how_to_use_text)
             continue
-        elif menu_choice == "3":
+        elif menu_choice == "4":
             clear_screen()
             print(logo)
             input(about_text)
             continue
         else:
-            input("Invalid menu choice. Press ENTER to retry.")
+            input("\nInvalid menu choice. Press ENTER to retry.")
             continue
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as e:
-        input(f"Error: {e}")
+        input(f"\n{RED}Error: {e}")
