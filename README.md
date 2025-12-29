@@ -2,6 +2,14 @@
 ![logo](Jomi_logo.ico)
 
 ## NEWS
+--- SOFTWARE UPGRADE ON DECEMBER 29, 2025 (v1.2.0) ---
+
+**New Features**
+1. Audio stuttering bug has been fixed (audio is now completely smooth).
+2. Videos are now saved as ".mp4" instead of ".ts"
+3. New "settings" feature added to the main menu (currently has video quality adjustment only).
+
+
 --- SOFTWARE UPGRADE ON DECEMBER 25, 2025 (v1.1.0) ---
 
 
@@ -36,6 +44,10 @@ Otherwise, if you like to setup Python on your device and run the Python files d
 4. Run 'main.py' to launch the application.
 
 ## Usage
+To navigate the different menu screens in the app, simply type the number of the option you want and press
+ENTER. This rule applies to all menu pages in the app. Below is an example for how to download a video using JOMI Downloader
+(use the same logic for the settings page).
+
 To download a JOMI video, follow these steps (screenshots are shown at the end):
 
 1. Once you launch the software, type '1' and press ENTER.
@@ -43,7 +55,7 @@ To download a JOMI video, follow these steps (screenshots are shown at the end):
 3. You will then be asked to provide a name for the output video. Type the name without an extension and press ENTER.
 4. Sit back and relax while the downloader downloads the video and its captions for you.
 5. Once the video is downloaded, you will see a message in blue saying 'Done! The video has been saved as ...'. Once you see this, press ENTER to go back to the main menu.
-6. The video will be saved in the same directory as 'main.py' as a '.ts' video file.
+6. The video will be saved in the same folder as a ".mp4" video file, and the captions file will be saved in the same folder as a ".srt" file with the same name as the video.
 
 ## Screenshots
 Step 1:
@@ -60,12 +72,32 @@ Step 3:
 Step 4:
 ![Download Complete](images/download_complete.png)
 
-Videos Played after Being Downloaded:
+Video Played after Being Downloaded:
 ![Video in Folder](images/video_folder.png)
-![Video in Folder 2](images/video_folder_2.png)
-![captions_1](images/jomi_captions_1.jpeg)
-![captions_2](images/jomi_captions_2.jpeg)
-![captions_3](images/jomi_captions_3.jpeg)
+![captions 1](images/video_captions_1.png)
+![captions 2](images/video_captions_2.png)
+![captions 3](images/video_captions_3.png)
+
+## Settings
+Currently, the settings menu has 1 item: the Video Quality. This option allows the user
+to choose the quality of the videos that are downloaded. The user's preferences are retained even if the user restarts the app.
+There are 3 options for the
+quality: Low, Medium, and High. 
+
+The **low quality** option downloads a low quality (360P) video with a small size and fast download.
+
+The **medium quality** option downloads an HD video (720p) with a moderate size and a moderate download time. This is the recommended option.
+
+The **high quality** option downloads a full HD video (1080p), but with a huge size and much longer download time.
+
+![settings 1](images/settings_1.png)
+![settings 2](images/settings_2.png)
+![quality 1](images/quality_1.png)
+![quality 2](images/quality_2.png)
+
+
+
+
 
 ## Other Screenshots
 
