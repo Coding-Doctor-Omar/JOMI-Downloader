@@ -101,7 +101,6 @@ The **high quality** option downloads a full HD video (1080p), but with a huge s
 
 
 ## Other Screenshots
-
 About Screen:
 ![about screen](images/about.png)
 
