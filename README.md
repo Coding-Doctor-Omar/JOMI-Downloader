@@ -54,8 +54,8 @@ To download a JOMI video, follow these steps (screenshots are shown at the end):
 2. You will be asked to provide the URL for the JOMI video page. Paste the URL and press ENTER.
 3. You will then be asked to provide a name for the output video. Type the name without an extension and press ENTER.
 4. Sit back and relax while the downloader downloads the video and its captions for you.
-5. Once the video is downloaded, you will see a message in blue saying 'Done! The video has been saved as ...'. Once you see this, press ENTER to go back to the main menu.
-6. The video will be saved in the same folder as a ".mp4" video file, and the captions file will be saved in the same folder as a ".srt" file with the same name as the video.
+5. Once the video is downloaded, you will see a message saying 'Download Complete!'. Once you see this, press ENTER to go back to the main menu.
+6. The video will be saved in the same folder as a ".mp4" video file, and the subtitles file will be saved in the same folder as a ".srt" file with the same name as the video.
 
 ## Screenshots
 Step 1:

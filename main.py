@@ -102,7 +102,17 @@ async def download_video(vid_name, vid_url):
 
     print(f"{YELLOW}Initializing Download...\n")
     await scraper.download_video()
-    input(f"{AQUA}\nDone! The video and subtitles have been saved as '{vid_name}.mp4' and '{vid_name}.srt' in the same folder, respectively.\nPress ENTER to go back to the main menu.")
+    print(f"\nDownload Complete!")
+    print("=======================================================")
+    print(f"{AQUA}The following files have been saved in the same folder:\n\n")
+
+    print("[Video]")
+    print(f"{vid_name}.mp4\n")
+
+    print("[Subtitles]")
+    print(f"{vid_name}.srt")
+
+    input(f"\n{GREEN}Press ENTER to return to the main menu.")
     
 def get_user_settings() -> dict:
     try:
