@@ -1,6 +1,5 @@
 from curl_cffi import AsyncSession, requests
 from tqdm import tqdm
-import asyncio
 
 
 
