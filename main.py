@@ -49,9 +49,8 @@ how_to_use_text = r"""
 1. In the main menu, type '1' and press ENTER.
 2. You will be asked to provide the URL for the video page and to provide your desired video name.
 3. Grab a cup of tea and rest until the video is downloaded.
-4. The video will be saved in the same folder.
-5. Wait until you see 'Download Complete!'.
-6. The video file (.mp4) and subtitles file (.srt) will be saved in the same folder.
+4. Wait until you see 'Download Complete!'.
+5. The video file (.mp4) and subtitles file (.srt) will be saved in the same folder.
 
 Press ENTER to return to the main menu.
 """
