@@ -58,6 +58,7 @@ To download a JOMI video, follow these steps (screenshots are shown at the end):
 6. The video will be saved in the same folder as a ".mp4" video file, and the subtitles file will be saved in the same folder as a ".srt" file with the same name as the video.
 
 ## Screenshots
+
 Step 1:
 ![Step 1](images/menu.png)
 
