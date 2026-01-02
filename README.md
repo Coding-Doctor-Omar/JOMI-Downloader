@@ -84,7 +84,7 @@ to choose the quality of the videos that are downloaded. The user's preferences 
 There are 3 options for the
 quality: Low, Medium, and High. 
 
-The **low quality** option downloads a low quality (360P) video with a small size and fast download.
+The **low quality** option downloads a low quality (360p) video with a small size and fast download.
 
 The **medium quality** option downloads an HD video (720p) with a moderate size and a moderate download time. This is the recommended option.
 
