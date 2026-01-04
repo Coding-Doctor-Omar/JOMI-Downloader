@@ -2,6 +2,12 @@
 ![logo](Jomi_logo.ico)
 
 ## NEWS
+--- JANUARY 5, 2026 PATCH (v1.2.1) ---
+
+1. UI enhancement in the post-download screen.
+2. Minor edge-case error handling in the user settings configuration.
+
+
 --- SOFTWARE UPGRADE ON DECEMBER 29, 2025 (v1.2.0) ---
 
 **New Features**
