@@ -67,7 +67,7 @@ surgical video and downloads the full video in HD quality, bypassing the paywall
 WARNING:- This software is for educational purposes only. Review the TOS of JOMI before using.
 I am not responsible for any misuse on your part.
 
-[v1.2.0]
+[v1.2.1]
 
 
 Press ENTER to return to the main menu.
@@ -124,6 +124,23 @@ def get_user_settings() -> dict:
         }
         with open("settings.json", mode="w", encoding="utf-8") as settings_file:
             json.dump(settings, settings_file, indent=4)
+
+    try:
+        _ = settings["videoQuality"]
+
+        if settings["videoQuality"] not in ["low", "medium", "high"]:
+            settings = {
+                "videoQuality": "medium"
+            }
+            with open("settings.json", mode="w", encoding="utf-8") as settings_file:
+                json.dump(settings, settings_file, indent=4)
+
+    except KeyError:
+        settings = {
+            "videoQuality": "medium"
+        }
+        with open("settings.json", mode="w", encoding="utf-8") as settings_file:
+            json.dump(settings, settings_file, indent=4)
     
     return settings
 
@@ -134,12 +151,12 @@ def set_video_quality(user_choice: str) -> None:
         "3": "high"
     }
     new_quality = choice_dict[user_choice]
-    
+
+    settings: dict = get_user_settings()
+    settings.update({"videoQuality": new_quality})
+
     with open("settings.json", mode="w", encoding="utf-8") as settings_file:
-        new_settings = {
-            "videoQuality": new_quality
-        }
-        json.dump(new_settings, settings_file, indent=4)
+        json.dump(settings, settings_file, indent=4)
     
 
 
