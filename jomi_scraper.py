@@ -25,7 +25,7 @@ class JomiScraper:
             "high": "OriginalFile"
         }
 
-        r = await session.get(self.vid_url, impersonate="edge")
+        r = await session.get(self.vid_url)
         separator = f'"contentType":"video/mp4","type":"{vid_types[self.vid_quality]}"'
 
         self.video_data_url = r.text.split(separator)[0].split('"url":"')[-1].split(".bin")[0] + ".bin"
