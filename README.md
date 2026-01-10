@@ -1,35 +1,6 @@
 # JOMI Downloader
 ![logo](Jomi_logo.ico)
 
-## NEWS
---- JANUARY 5, 2026 PATCH (v1.2.1) ---
-
-1. UI enhancement in the post-download screen.
-2. Minor edge-case error handling in the user settings configuration.
-
-
---- SOFTWARE UPGRADE ON DECEMBER 29, 2025 (v1.2.0) ---
-
-**New Features**
-1. Audio stuttering bug has been fixed (audio is now completely smooth).
-2. Videos are now saved as ".mp4" instead of ".ts"
-3. New "settings" feature added to the main menu (currently has video quality adjustment only).
-
-
---- SOFTWARE UPGRADE ON DECEMBER 25, 2025 (v1.1.0) ---
-
-
-
-JOMI Downloader now shows a neat progress bar for the download progress, instead of the primitive text spam display.
-
---- SOFTWARE UPGRADE ON DECEMBER 16, 2025 ---
-
-
-
-JOMI Downloader now also downloads the video captions and saves them in a ".srt" file in the same directory as the video file and with the same name as the video file.
-
-You can now watch your surgical video with captions by just enabling captions in your video player and selecting the ".srt" file!
-
 ## Background
 [JOMI](https://jomi.com/) stands for *Journal Of Medical Insight*. This journal is an online educational platform focused on high-quality surgical education. It provides peer-reviewed, step-by-step videos of real surgical procedures, performed by expert surgeons and accompanied by detailed explanations of anatomy, indications, operative steps, and postoperative considerations.
 
@@ -113,3 +84,27 @@ About Screen:
 
 How to Use Screen:
 ![how to use](images/how_to_use.png)
+
+## NEWS / CHANGELOG
+#### JANUARY 5, 2026 (v1.2.1)
+
+1. UI enhancement in the post-download screen.
+2. Minor edge-case error handling in the user settings configuration.
+
+
+#### DECEMBER 29, 2025 (v1.2.0)
+
+1. Audio stuttering bug has been fixed (audio is now completely smooth).
+2. Videos are now saved as ".mp4" instead of ".ts"
+3. New "settings" feature added to the main menu (currently has video quality adjustment only).
+
+
+#### DECEMBER 25, 2025 (v1.1.0)
+
+1. JOMI Downloader now shows a neat progress bar for the download progress, instead of the primitive text spam display.
+
+#### DECEMBER 16, 2025 (pre-release)
+
+1. New "video subtitles download" feature has been added.
+
+_Subtitiles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file._
