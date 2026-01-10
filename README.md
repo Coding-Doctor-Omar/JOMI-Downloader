@@ -107,4 +107,4 @@ How to Use Screen:
 
 1. New "video subtitles download" feature has been added.
 
-_Subtitiles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file._
+_Subtitles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file._
