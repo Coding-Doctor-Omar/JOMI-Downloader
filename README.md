@@ -103,6 +103,4 @@ How to Use Screen:
 
 #### DECEMBER 16, 2025 (pre-release)
 
-1. New "video subtitles download" feature has been added.
-
-_Subtitles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file._
+1. New "video subtitles download" feature has been added. Subtitles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file.
