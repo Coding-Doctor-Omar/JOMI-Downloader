@@ -4,9 +4,7 @@
 ## Background
 [JOMI](https://jomi.com/) stands for *Journal Of Medical Insight*. This journal is an online educational platform focused on high-quality surgical education. It provides peer-reviewed, step-by-step videos of real surgical procedures, performed by expert surgeons and accompanied by detailed explanations of anatomy, indications, operative steps, and postoperative considerations.
 
-JOMI is designed primarily for medical students, residents, and practicing surgeons, offering a realistic view of surgery as it happens in the operating room. The platform covers multiple specialties (e.g., general surgery, orthopedics, OB/GYN, urology, neurosurgery) and emphasizes clinical decision-making, surgical technique, and intraoperative anatomy.
-
-Access is typically paid and requires subscriptions. This is what this software intends to solve. It allows any medical student to access any video on the website for FREE, in HD quality, and with subtitles
+**Access is typically paid and requires subscriptions.** This is what this software intends to solve. It allows any medical student to access any video on the website for **FREE**, in HD quality, and with subtitles
 by simply entering the URL for the video page. Note that this software is for educational purposes only.
 
 ## Installation
