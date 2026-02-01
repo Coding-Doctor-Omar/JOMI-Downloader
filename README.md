@@ -7,6 +7,33 @@
 **Access is typically paid and requires subscriptions.** This is what this software intends to solve. It allows any medical student to access any video on the website for **FREE**, in HD quality, and with subtitles
 by simply entering the URL for the video page. Note that this software is for educational purposes only.
 
+## NEWS / CHANGELOG
+#### February 1, 2026 (v1.2.2)
+1. Breaking bug fixes following an update to JOMI's website structure.
+
+**ALL VERSIONS PRIOR TO THIS VERSION NO LONGER WORK.**
+
+#### JANUARY 5, 2026 (v1.2.1)
+
+1. UI enhancement in the post-download screen.
+2. Minor edge-case error handling in the user settings configuration.
+
+
+#### DECEMBER 29, 2025 (v1.2.0)
+
+1. Audio stuttering bug has been fixed (audio is now completely smooth).
+2. Videos are now saved as ".mp4" instead of ".ts"
+3. New "settings" feature added to the main menu (currently has video quality adjustment only).
+
+
+#### DECEMBER 25, 2025 (v1.1.0)
+
+1. JOMI Downloader now shows a neat progress bar for the download progress, instead of the primitive text spam display.
+
+#### DECEMBER 16, 2025 (pre-release)
+
+1. New "video subtitles download" feature has been added. Subtitles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file.
+
 ## Installation
 If you are not interested in going over the details of local Python setup and would like to easily and quickly use JOMI Downloader,
 check the latest release [here](https://github.com/Coding-Doctor-Omar/JOMI-Downloader/releases/tag/v1.2.1), or check the [JOMI Downloader telegram bot](https://t.me/jomi_downloader_bot).
@@ -82,25 +109,3 @@ About Screen:
 
 How to Use Screen:
 ![how to use](images/how_to_use.png)
-
-## NEWS / CHANGELOG
-#### JANUARY 5, 2026 (v1.2.1)
-
-1. UI enhancement in the post-download screen.
-2. Minor edge-case error handling in the user settings configuration.
-
-
-#### DECEMBER 29, 2025 (v1.2.0)
-
-1. Audio stuttering bug has been fixed (audio is now completely smooth).
-2. Videos are now saved as ".mp4" instead of ".ts"
-3. New "settings" feature added to the main menu (currently has video quality adjustment only).
-
-
-#### DECEMBER 25, 2025 (v1.1.0)
-
-1. JOMI Downloader now shows a neat progress bar for the download progress, instead of the primitive text spam display.
-
-#### DECEMBER 16, 2025 (pre-release)
-
-1. New "video subtitles download" feature has been added. Subtitles are saved as a ".srt" file in the same folder, with the same name as that of the video. You can now enable subtitles in your video player by selecting this ".srt" file.
