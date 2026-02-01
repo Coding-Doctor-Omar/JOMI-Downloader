@@ -20,15 +20,15 @@ class JomiScraper:
 
     async def get_video_data_url(self, session: AsyncSession) -> None:
         vid_types = {
-            "low": "IphoneVideoFile",
-            "medium": "HdMp4VideoFile",
-            "high": "OriginalFile"
+            "low": r'\"height\":360',
+            "medium": r'\"height\":720',
+            "high": r'\"height\":1080'
         }
 
         r = await session.get(self.vid_url)
-        separator = f'"contentType":"video/mp4","type":"{vid_types[self.vid_quality]}"'
+        separator = r'\"contentType\":\"video/mp4\"'
 
-        self.video_data_url = r.text.split(separator)[0].split('"url":"')[-1].split(".bin")[0] + ".bin"
+        self.video_data_url = [chunk.split(r'\"url\":\"')[-1].split('.bin')[0] + '.mp4' for chunk in r.text.split(separator) if vid_types[self.vid_quality] in chunk and '.bin' in chunk and 'image' not in chunk][0]
 
 
 
