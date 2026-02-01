@@ -67,7 +67,7 @@ surgical video and downloads the full video in HD quality, bypassing the paywall
 WARNING:- This software is for educational purposes only. Review the TOS of JOMI before using.
 I am not responsible for any misuse on your part.
 
-[v1.2.1]
+[v1.2.2]
 
 
 Press ENTER to return to the main menu.
