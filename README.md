@@ -36,7 +36,7 @@ by simply entering the URL for the video page. Note that this software is for ed
 
 ## Installation
 If you are not interested in going over the details of local Python setup and would like to easily and quickly use JOMI Downloader,
-check the latest release [here](https://github.com/Coding-Doctor-Omar/JOMI-Downloader/releases/tag/v1.2.1), or check the [JOMI Downloader telegram bot](https://t.me/jomi_downloader_bot).
+check the latest release [here](https://github.com/Coding-Doctor-Omar/JOMI-Downloader/releases/tag/v1.2.2), or check the [JOMI Downloader telegram bot](https://t.me/jomi_downloader_bot).
 
 Otherwise, if you like to setup Python on your device and run the Python files directly, follow the 4 steps below:
 
